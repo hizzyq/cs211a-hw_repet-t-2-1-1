@@ -4,7 +4,8 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var gen = new Gen_Var();
+            gen.Gen_Vars();
         }
     }
 }
