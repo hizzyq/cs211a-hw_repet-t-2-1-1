@@ -51,7 +51,7 @@ namespace Homework10_11
             }
         }
 
-        public void Gen_Vars()
+        public void Gen_Vars() // int cntVar, int cntTasks - это потом внести в сигнатуру функции
         {
             //ЭТО ДОЛЖНО БЫТЬ В МЕНЮ, В ДАННУЮ ФУНКЦИЮ НАДО БУДЕТ ДОБАВИТЬ 2 ВХОДНЫХ ПАРАМЕТРА
             int cntVar = 0;
