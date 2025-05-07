@@ -4,8 +4,8 @@
     {
         static void Main(string[] args)
         {
-            var ch = new Check_Knowledge(3, 5);
-            ch.Check_Test(2);
+            var ch = new Tasks(3, 3);
+            ch.Check_Test();
         }
     }
 }
