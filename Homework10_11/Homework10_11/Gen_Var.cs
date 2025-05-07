@@ -10,15 +10,18 @@ namespace Homework10_11
     {
         private const string PATH_BANK = "../../../files/Task/bank.txt";
         private const string PATH_TIPS = "../../../files/Task/tips.txt";
-        private Dictionary<int, Task> bank_questions;
+        static private Dictionary<int, Task> bank_questions;
+        static private Dictionary<int, string> tips_bank;
 
-        public Gen_Var()
+        static Gen_Var()
         {
             bank_questions = new Dictionary<int, Task>();
             Get_Tasks_In_File();
+            tips_bank = new Dictionary<int, string>();
+            Get_Tips();
         }
 
-        private string Get_Tips(int numb) 
+        static private void Get_Tips() 
         {
             using (var sr = new StreamReader(PATH_TIPS))
             {
@@ -26,20 +29,15 @@ namespace Homework10_11
                 {
                     string[] line = sr.ReadLine().Split('|', StringSplitOptions.RemoveEmptyEntries);
                     if (int.TryParse(line[0], out int id))
-                    {
-                        if (numb == id) return line[1];
-                    }
+                        tips_bank[id] = line[1];
                     else
-                    {
                        throw new Exception("Incorect file!");
-                       return null;
-                    }
                 }
-                return null;
+                return;
             }
         }
 
-        private void Get_Tasks_In_File()
+        static private void Get_Tasks_In_File()
         {
             using (var sr = new StreamReader(PATH_BANK))
             {
@@ -51,40 +49,21 @@ namespace Homework10_11
             }
         }
 
-        public void Gen_Vars() // int cntVar, int cntTasks - это потом внести в сигнатуру функции
+        static public void Gen_Vars(int cntVar, int cntTasks) 
         {
-            //ЭТО ДОЛЖНО БЫТЬ В МЕНЮ, В ДАННУЮ ФУНКЦИЮ НАДО БУДЕТ ДОБАВИТЬ 2 ВХОДНЫХ ПАРАМЕТРА
-            int cntVar = 0;
-            while (true)
-            {
-                Console.Write("Введите кол-во вариантов:");
-                var f = int.TryParse(Console.ReadLine(),out cntVar);
-                if (f) break;
-                Console.Clear();
-            }
-            int cntTasks = 0;
-            while (true)
-            {
-                Console.Write("Введите кол-во заданий:");
-                var f = int.TryParse(Console.ReadLine(), out cntTasks);
-                if (f) break;
-                Console.Clear();
-            }
-            //ОТСЮДА УЖЕ ИДЕТ САМ ГЕНЕРАТОР
             var rnd = new Random();
             for (int i = 0; i < cntVar; i++)
             {
                 Directory.CreateDirectory($"../../../files/Var/Var{i+1}");
-                using (var fsV = File.Open($"../../../files/Var/Var{i+1}/variant{i + 1}.txt", FileMode.Create))
-                using (var fsT = File.Open($"../../../files/Var/Var{i+1}/tipsForVar{i + 1}.txt", FileMode.Create))
-                using (var fsAns = File.Open($"../../../files/Var/Var{i+1}/AnsForVar{i + 1}.txt", FileMode.Create))
+                using (var fsV = File.Open($"../../../files/Var/Var{i+1}/variant.txt", FileMode.Create))
+                using (var fsT = File.Open($"../../../files/Var/Var{i+1}/tipsForVar.txt", FileMode.Create))
+                using (var fsAns = File.Open($"../../../files/Var/Var{i+1}/AnsForVar.txt", FileMode.Create))
                 using (var swV = new StreamWriter(fsV))
                 using (var swT = new StreamWriter(fsT))
                 using (var swAns = new StreamWriter(fsAns))
                 {
                     var quests = new HashSet<int>();
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Вариант номер {i + 1}");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     for (int j = 0; j < cntTasks; j++)
                     {
@@ -97,11 +76,20 @@ namespace Homework10_11
                         {
                             if (!quests.Contains(num))
                             {
-                                Console.WriteLine($"Задание номер {j + 1} - {bank_questions[num].СondTask}");
-                                swV.WriteLine((j+1) + "." + " " + bank_questions[num].СondTask);
-                                swAns.WriteLine((j + 1) + "." + " " + bank_questions[num].AnsTask);
-                                swT.WriteLine((j + 1) + "." + " " + Get_Tips(num));   
-                                quests.Add(num);
+                                if (new int[] { 20, 21, 22 }.Contains(num))
+                                {
+                                    swV.WriteLine((num) + "|" + bank_questions[num].СondTask);
+                                    swAns.WriteLine((num) + "|" + "РО");
+                                    swT.WriteLine((num) + "|" + tips_bank[num]);
+                                    quests.Add(num);
+                                }
+                                else
+                                {
+                                    swV.WriteLine((num) + "|" + bank_questions[num].СondTask);
+                                    swAns.WriteLine((num) + "|" + bank_questions[num].AnsTask);
+                                    swT.WriteLine((num) + "|" + tips_bank[num]);
+                                    quests.Add(num);
+                                }
                                 cnt++;
                             }
                             else num = rnd.Next(1, 23);
@@ -109,6 +97,7 @@ namespace Homework10_11
                     }
                 }
             }
+            Console.WriteLine("Варианты сгенерированы)");
             Console.ForegroundColor = ConsoleColor.White;
         }
     }

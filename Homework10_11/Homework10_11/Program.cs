@@ -4,8 +4,8 @@
     {
         static void Main(string[] args)
         {
-            var gen = new Gen_Var();
-            gen.Gen_Vars();
+            var ch = new Check_Knowledge(3, 5);
+            ch.Check_Test(2);
         }
     }
 }
