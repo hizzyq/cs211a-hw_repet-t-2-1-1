@@ -10,7 +10,7 @@ namespace Homework10_11
     {
         private const string PATH_BANK = "../../../files/Task/bank.txt";
         private const string PATH_TIPS = "../../../files/Task/tips.txt";
-        Dictionary<int, Task> bank_questions;
+        private Dictionary<int, Task> bank_questions;
 
         public Gen_Var()
         {
@@ -53,6 +53,7 @@ namespace Homework10_11
 
         public void Gen_Vars()
         {
+            //ЭТО ДОЛЖНО БЫТЬ В МЕНЮ, В ДАННУЮ ФУНКЦИЮ НАДО БУДЕТ ДОБАВИТЬ 2 ВХОДНЫХ ПАРАМЕТРА
             int cntVar = 0;
             while (true)
             {
@@ -69,6 +70,7 @@ namespace Homework10_11
                 if (f) break;
                 Console.Clear();
             }
+            //ОТСЮДА УЖЕ ИДЕТ САМ ГЕНЕРАТОР
             var rnd = new Random();
             for (int i = 0; i < cntVar; i++)
             {
