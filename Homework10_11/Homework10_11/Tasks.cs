@@ -156,7 +156,7 @@ namespace Homework10_11
             }
         }
 
-        public void Check_Test()
+        private void Check_Test()
         {
             var rnd = new Random();
             var num_test = rnd.Next(1, cV + 1);
@@ -183,7 +183,7 @@ namespace Homework10_11
                 else Console.WriteLine("Неверно введен номер вопроса!");
             }
             int ind = 1;
-            while (ind < cT)
+            while (ind <= cT)
             {
                 Console.WriteLine($"Введите ответ на задачу номер {ind}: ");
                 var ans = Console.ReadLine();
@@ -196,6 +196,63 @@ namespace Homework10_11
                     Console.WriteLine("Вы ответили верно!");
                 else { Console.WriteLine("Вы ответили неверно :(("); Console.WriteLine("Верный ответ : " + Get_Answer(num_test, ind)); }
                 ind++;
+            }
+        }
+
+        private void Get_Bank_Quest()
+        {
+            foreach (var key in bank_questions.Keys)
+            {
+                Console.WriteLine(key + "." + bank_questions[key].СondTask);
+            }
+        }
+
+        public void CheckKnowledge()
+        {
+            bool flag = true;
+            while (flag)
+            {
+                Console.WriteLine("Выберите действие(введите цыфру): \n1.Сгенерировать вариант контрольной. " +
+                    "\n2.Начать контрольную с автопроверкой. \n3.Вывести вес возможные вопросы. \n0.Выйти с раздела.");
+                string act = "";
+                while (true) 
+                {
+                    act = Console.ReadLine();
+                    if (new string[] {"0", "1", "2", "3" }.Contains(act)) break;
+                    Console.WriteLine("Неверный ввод! \n Повторите попытку!");
+                }
+                switch (act) 
+                {
+                    case "0":
+                        flag = false;
+                        break;
+                    case "1":
+                        { 
+                            Console.WriteLine("Введите номер варианта: ");
+                            int num = 0;
+                            while (true)
+                            {
+                                if (int.TryParse(Console.ReadLine(), out num) && num > 0 && num < cV)
+                                    break;
+                                Console.WriteLine("Неыерный ввод! Повторите попытку!");
+                            }
+                            Get_Variant(num);
+                        }
+                        break;
+                    case "2":
+                        Check_Test();
+                        break;
+                    case "3":
+                        Get_Bank_Quest();
+                        break;
+                }
+                if (flag)
+                {
+                    Console.WriteLine("Нажмите Enter чтобы продолжить");
+                    Console.ReadLine();
+                    Console.Clear();
+                }
+                else Console.Clear();
             }
         }
     }
